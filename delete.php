@@ -1,0 +1,30 @@
+<?php
+require("koneksi.php");
+
+$response = array();
+if ($_SERVER['REQUEST_METHOD']=='POST'){
+
+    $id = $_POST["id"];
+
+    $perintah = "DELETE FROM tb_pesanan WHERE id = '$id'";
+    $eksekusi = mysqli_query($konek,$perintah);
+    $cek=mysqli_affected_rows($konek);
+
+    if ($cek>0) {
+        $response["kode"] = 1;
+        $response["pesan"] = "Data berhasil dihapus";
+    }else{
+        $response["kode"] = 0;
+        $response["pesan"] = "Data gagal dihapus";
+        
+    }
+    
+}else {
+    $response["kode"] = 0;
+    $response["pesan"] = "Tidak ada post data";
+    
+}
+echo json_encode($response);
+mysqli_close($konek);
+
+?>
